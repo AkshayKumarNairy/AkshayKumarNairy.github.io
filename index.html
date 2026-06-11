@@ -1032,7 +1032,7 @@
 
 <span class="k">jobs</span>:
   <span class="fn">coverage</span>:
-    <span class="n">runs-on</span>: ubuntu-latest
+    <span class="n">runs-on</span>: as24-base-arm
 
     <span class="n">steps</span>:
       - <span class="n">uses</span>: actions/checkout@v4
@@ -1091,7 +1091,7 @@
 <span class="k">jobs</span>:
   <span class="fn">check-ai-comments</span>:
     <span class="n">name</span>: <span class="s">Block merge if AI reviewer comments unresolved</span>
-    <span class="n">runs-on</span>: ubuntu-latest
+    <span class="n">runs-on</span>: as24-base-arm
 
     <span class="n">steps</span>:
       - <span class="n">name</span>: <span class="s">Check for unresolved AI review comments</span>
