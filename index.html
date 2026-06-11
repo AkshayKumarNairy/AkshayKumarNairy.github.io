@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akshay Kumar · QA Engineer</title>
-  <meta name="description" content="QA Engineer specialising in Playwright automation, AI-powered testing tools, and CI/CD quality gates. Based in Germany." />
-  <meta property="og:title" content="Akshay Kumar · QA Engineer" />
-  <meta property="og:description" content="Building AI-powered QA tooling and Playwright automation frameworks." />
+  <title>Akshay Kumar · Senior QA Engineer</title>
+  <meta name="description" content="Senior QA Engineer with 7+ years experience in Playwright automation, AI-powered testing tools, API testing, mobile testing and CI/CD quality gates. Based in Düsseldorf, Germany." />
+  <meta property="og:title" content="Akshay Kumar · Senior QA Engineer" />
+  <meta property="og:description" content="7+ years QA · Playwright · AI-powered testing · quality-pack · ISTQB certified · Düsseldorf, Germany." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -302,6 +302,46 @@
     }
     .fade.show { opacity: 1; transform: translateY(0); }
 
+    /* VALUE PROPS */
+    #value { background: var(--surface); padding: 4rem 0; }
+    .value-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.25rem;
+    }
+    .value-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      transition: border-color var(--ease), transform var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .value-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0; transition: opacity var(--ease);
+    }
+    .value-card:hover { border-color: rgba(34,211,238,.3); transform: translateY(-3px); }
+    .value-card:hover::after { opacity: 1; }
+    .value-icon { font-size: 2rem; margin-bottom: .75rem; }
+    .value-card h3 { font-size: 1rem; font-weight: 700; color: var(--heading); margin-bottom: .5rem; }
+    .value-card p { font-size: .82rem; color: var(--text); line-height: 1.7; }
+
+    /* QA PHILOSOPHY */
+    #philosophy { padding: 5rem 0; }
+    .philosophy-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .phil-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.75rem;
+      border-left: 3px solid var(--accent);
+    }
+    .phil-num {
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+      color: var(--accent); margin-bottom: .5rem; letter-spacing: .1em;
+    }
+    .phil-card h3 { font-size: .975rem; font-weight: 700; color: var(--heading); margin-bottom: .5rem; }
+    .phil-card p { font-size: .82rem; color: var(--text); line-height: 1.75; }
+
     /* CODE SHOWCASE */
     #code { background: var(--surface); }
     .code-tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -363,9 +403,9 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
     <li><a href="#code">Code</a></li>
     <li><a href="#experience">Experience</a></li>
-    <li><a href="#certifications">Certs</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="mailto:kum123akshay@gmail.com?subject=Opportunity%20for%20Akshay%20Kumar" class="nav-cta">Hire me</a>
@@ -381,8 +421,9 @@
       <h1 class="hero-name">Akshay <span class="hl">Kumar</span></h1>
       <div class="hero-role"><span id="typed"></span><span class="cursor"></span></div>
       <p class="hero-tagline">
-        QA Engineer turning manual testing bottlenecks into intelligent, AI-powered automation frameworks.
-        Currently building Claude Code skills that make the entire QA lifecycle smarter.
+        Senior QA Engineer with 7+ years building test strategies, automation frameworks, and AI-powered tooling
+        across web, mobile, and API layers. I bridge engineering velocity with product quality &mdash;
+        and I build the tools that make my whole team faster.
       </p>
       <div class="hero-actions">
         <a href="#projects" class="btn btn-primary">View My Work</a>
@@ -392,6 +433,39 @@
         <div class="scroll-line"></div>
         scroll to explore
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section id="value">
+  <div class="container">
+    <div class="value-grid">
+
+      <div class="value-card fade">
+        <div class="value-icon">&#129302;</div>
+        <h3>AI-Native QA</h3>
+        <p>Built <strong>quality-pack</strong> from scratch — a Claude Code plugin suite that auto-generates self-healing tests, traces tickets to code, and publishes QA reports. Pioneered AI-driven exploratory testing before it was a trend.</p>
+      </div>
+
+      <div class="value-card fade">
+        <div class="value-icon">&#127919;</div>
+        <h3>360&deg; Testing Coverage</h3>
+        <p>E2E &bull; API (Karate/Swagger) &bull; Mobile (Android Studio) &bull; Performance (Locust) &bull; A/B (Optimizely) &bull; Accessibility &bull; Manual &amp; Exploratory. Full testing spectrum, not just automation.</p>
+      </div>
+
+      <div class="value-card fade">
+        <div class="value-icon">&#128200;</div>
+        <h3>Quality That Ships Fast</h3>
+        <p>Built CI gates that block bad code before it merges. Restored test coverage metrics after a GitLab migration. Turned a production incident into a permanent safeguard. Quality improvements that stick.</p>
+      </div>
+
+      <div class="value-card fade">
+        <div class="value-icon">&#128101;</div>
+        <h3>Leadership &amp; Mentoring</h3>
+        <p>Led QA teams, mentored junior testers, ran bi-weekly exploratory sessions bridging QA and dev. ISTQB Agile certified. 7+ years across 3 companies and multiple technology domains.</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -522,11 +596,23 @@
         <h3>API &amp; Mobile Testing</h3>
         <div class="tags">
           <span class="tag tag-a">Karate DSL</span>
-          <span class="tag">Gherkin</span>
+          <span class="tag tag-a">Postman</span>
+          <span class="tag">Gherkin / BDD</span>
           <span class="tag">Swagger UI</span>
+          <span class="tag">REST / JSON</span>
           <span class="tag">Android Studio</span>
-          <span class="tag">Mobile Regression</span>
           <span class="tag">GA4 Validation</span>
+        </div>
+      </div>
+      <div class="skill-card fade">
+        <div class="skill-card-icon">&#9855;&#65039;</div>
+        <h3>Accessibility &amp; Security Basics</h3>
+        <div class="tags">
+          <span class="tag tag-a">axe DevTools</span>
+          <span class="tag">WCAG 2.1</span>
+          <span class="tag">Chrome DevTools</span>
+          <span class="tag">OWASP Top 10</span>
+          <span class="tag">Vulnerability Awareness</span>
         </div>
       </div>
       <div class="skill-card fade">
@@ -669,6 +755,49 @@
   </div>
 </section>
 
+<!-- QA PHILOSOPHY -->
+<section id="philosophy">
+  <div class="container">
+    <p class="section-label">// how I think about quality</p>
+    <h2 class="section-title">QA Philosophy</h2>
+    <p class="section-desc">
+      These four principles guide every test strategy, automation decision, and team conversation I have.
+      They're what separates a senior QA mindset from just writing tests.
+    </p>
+    <div class="philosophy-grid">
+
+      <div class="phil-card fade">
+        <div class="phil-num">01 // SHIFT LEFT</div>
+        <h3>Catch it before it's built wrong</h3>
+        <p>I review requirements and designs for testability before a single line of code is written.
+        A bug found in a Jira ticket costs minutes. Found in production, it costs thousands of listings going offline.</p>
+      </div>
+
+      <div class="phil-card fade">
+        <div class="phil-num">02 // AUTOMATE WHAT'S REPETITIVE</div>
+        <h3>Free your brain for the hard stuff</h3>
+        <p>Regression suites, nightly runs, coverage reports, PR gates — all automated.
+        That frees up test capacity for exploratory testing, edge cases, and the scenarios no script would think to check.</p>
+      </div>
+
+      <div class="phil-card fade">
+        <div class="phil-num">03 // QUALITY IS A TEAM SPORT</div>
+        <h3>QA doesn't end at the QA team</h3>
+        <p>I run bi-weekly exploratory sessions with devs, write testability guidelines, and build tools the whole team uses.
+        Quality is a shared responsibility — my job is to make it easy for everyone to participate.</p>
+      </div>
+
+      <div class="phil-card fade">
+        <div class="phil-num">04 // METRICS OVER OPINIONS</div>
+        <h3>If you can't measure it, you can't improve it</h3>
+        <p>Pass rate trends, coverage deltas, bug escape rates, test execution time — I track them all.
+        Decisions about what to automate, what to drop, and where to focus are driven by data, not gut feel.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- CODE SHOWCASE -->
 <section id="code">
   <div class="container">
@@ -680,10 +809,11 @@
     </p>
 
     <div class="code-tabs fade">
-      <button class="code-tab active" onclick="showTab('playwright')">Playwright E2E Test</button>
-      <button class="code-tab" onclick="showTab('ai-skill')">quality-pack: Self-Healing Loop</button>
-      <button class="code-tab" onclick="showTab('ci-gate')">CI Quality Gate (YAML)</button>
-      <button class="code-tab" onclick="showTab('coverage')">Coverage Reporter (YAML)</button>
+      <button class="code-tab active" onclick="showTab('playwright')">Playwright E2E (POM)</button>
+      <button class="code-tab" onclick="showTab('karate')">Karate DSL API Test</button>
+      <button class="code-tab" onclick="showTab('ai-skill')">quality-pack: Self-Healing</button>
+      <button class="code-tab" onclick="showTab('ci-gate')">CI Quality Gate</button>
+      <button class="code-tab" onclick="showTab('coverage')">Coverage Reporter</button>
     </div>
 
     <!-- Tab 1: Playwright POM -->
@@ -758,6 +888,66 @@
     <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'.field-error'</span>)).<span class="fn">toHaveCount</span>(<span class="m">2</span>);
   });
 });</pre>
+      </div>
+    </div>
+
+    <!-- Tab: Karate DSL -->
+    <div id="tab-karate" class="code-panel fade">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="code-dot" style="background:#ff5f57"></div>
+          <div class="code-dot" style="background:#febc2e"></div>
+          <div class="code-dot" style="background:#28c840"></div>
+          <span class="code-filename">api/listing-api.feature</span>
+        </div>
+<pre class="code-body"><span class="t">Feature</span>: <span class="s">Listing API — Merchant Operations</span>
+
+  <span class="t">Background</span>:
+    * <span class="k">url</span> <span class="n">baseUrl</span>
+    * <span class="k">def</span> <span class="n">token</span> = <span class="fn">call</span> <span class="fn">read</span>(<span class="s">'classpath:auth.js'</span>)
+    * <span class="k">header</span> Authorization = <span class="s">'Bearer '</span> + <span class="n">token</span>
+
+  <span class="t">Scenario</span>: <span class="s">Create a listing successfully</span>
+    <span class="k">Given</span> path <span class="s">'/api/v1/listings'</span>
+    <span class="k">And</span> request
+      <span class="s">"""
+      { "title": "Sample Listing", "monthlyRate": 299, "category": "standard" }
+      """</span>
+    <span class="k">When</span> method POST
+    <span class="k">Then</span> status <span class="m">201</span>
+    <span class="k">And</span>  match response.status    == <span class="s">'active'</span>
+    <span class="k">And</span>  match response.id        == <span class="s">'#notnull'</span>
+    <span class="k">And</span>  match response.createdAt == <span class="s">'#string'</span>
+
+  <span class="t">Scenario</span>: <span class="s">Returns 422 when required fields are missing</span>
+    <span class="k">Given</span> path <span class="s">'/api/v1/listings'</span>
+    <span class="k">And</span> request { <span class="s">"title"</span>: <span class="s">"Incomplete"</span> }
+    <span class="k">When</span> method POST
+    <span class="k">Then</span> status <span class="m">422</span>
+    <span class="k">And</span>  match response.errors contains
+      <span class="s">"""
+      { "field": "monthlyRate", "message": "#string" }
+      """</span>
+
+  <span class="t">Scenario</span>: <span class="s">Unauthorised request is rejected</span>
+    <span class="k">Given</span> path <span class="s">'/api/v1/listings'</span>
+    <span class="k">And</span> header Authorization = <span class="s">'Bearer invalid-token'</span>
+    <span class="k">And</span> request { <span class="s">"title"</span>: <span class="s">"Test"</span>, <span class="s">"monthlyRate"</span>: <span class="m">299</span> }
+    <span class="k">When</span> method POST
+    <span class="k">Then</span> status <span class="m">401</span>
+
+  <span class="t">Scenario Outline</span>: <span class="s">Rate validation boundaries</span>
+    <span class="k">Given</span> path <span class="s">'/api/v1/listings'</span>
+    <span class="k">And</span> request { <span class="s">"title"</span>: <span class="s">"Test"</span>, <span class="s">"monthlyRate"</span>: &lt;rate&gt; }
+    <span class="k">When</span> method POST
+    <span class="k">Then</span> status &lt;expected&gt;
+
+    <span class="t">Examples</span>:
+      | rate  | expected |
+      | <span class="m">299</span>   | <span class="m">201</span>      |
+      | <span class="m">0</span>     | <span class="m">422</span>      |
+      | <span class="m">-1</span>    | <span class="m">422</span>      |
+      | <span class="m">99999</span> | <span class="m">422</span>      |</pre>
       </div>
     </div>
 
@@ -953,12 +1143,13 @@
         <h3>QA Engineer</h3>
         <div class="tl-company">AutoScout24 &middot; LeasingMarkt.de &mdash; Kaiserslautern, Germany</div>
         <ul>
-          <li>Architected <strong>quality-pack</strong> &mdash; a Claude Code AI plugin suite (playwright-test-generator, qa-automator, check-qa-copilot, weekly-report, browser-qa) adopted across the engineering team</li>
-          <li>Built and maintained 180+ Playwright E2E nightly tests across P1/P2 tiers; refactored the Test Catalog Pipeline with GitHub Pages deployment</li>
-          <li>Built CI quality gate blocking PR merges on unresolved AI reviewer comments &mdash; direct response to a production incident affecting thousands of listings</li>
-          <li>Restored unit test coverage visibility after GitLab &rarr; GitHub migration: track history + per-PR coverage delta indicator</li>
-          <li>Conducted A/B and feature flag testing using Optimizely across local, staging, and incognito environments</li>
-          <li>Introduced Datadog &rarr; Slack alerting for nightly test failures below 70% pass rate</li>
+          <li>Architected <strong>quality-pack</strong> &mdash; an AI-powered Claude Code plugin suite adopted by the engineering team; first QA engineer at the company to build production tooling on top of LLMs</li>
+          <li>Designed and owned the E2E test strategy across P1/P2/nightly tiers (180+ tests); rebuilt the Test Catalog Pipeline with automated GitHub Pages deployment</li>
+          <li>Built a CI quality gate that makes it <em>technically impossible</em> to merge a PR with unresolved AI reviewer comments &mdash; a direct post-incident measure after a production outage affecting thousands of listings</li>
+          <li>Restored unit test coverage visibility after a GitLab &rarr; GitHub migration: historical tracking + per-PR delta badge surfaced for every developer</li>
+          <li>Led A/B and feature flag testing with Optimizely; defined test protocols for multi-variant experiments across staging, local, and incognito environments</li>
+          <li>Pioneered AI-driven exploratory testing by training models to autonomously interact with UI elements and evaluate responses</li>
+          <li>Validated GA4 analytics tracking using Chrome debugger; performed load testing with Locust; ran bi-weekly cross-team exploratory sessions</li>
         </ul>
       </div>
 
@@ -1076,7 +1267,7 @@
   });
 
   // Typing animation
-  const roles = ['QA Engineer', 'Playwright Automation', 'AI Testing Tools Builder', 'CI/CD Quality Advocate'];
+  const roles = ['Senior QA Engineer', 'Playwright Automation Expert', 'AI Testing Tools Builder', 'CI/CD Quality Advocate', 'Test Strategy Lead'];
   let ri = 0, ci = 0, del = false;
   const el = document.getElementById('typed');
   function tick() {
