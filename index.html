@@ -302,6 +302,48 @@
     }
     .fade.show { opacity: 1; transform: translateY(0); }
 
+    /* CODE SHOWCASE */
+    #code { background: var(--surface); }
+    .code-tabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .code-tab {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; padding: .4rem 1rem;
+      border-radius: 6px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      cursor: pointer; transition: all var(--ease);
+    }
+    .code-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .code-tab.active { background: var(--accent-dim); border-color: rgba(34,211,238,.35); color: var(--accent); }
+    .code-panel { display: none; }
+    .code-panel.active { display: block; }
+    .code-window {
+      background: #060b12; border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .code-titlebar {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .7rem 1rem; border-bottom: 1px solid var(--border);
+      background: #080e18;
+    }
+    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .code-filename {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; color: var(--muted); margin-left: .5rem;
+    }
+    pre.code-body {
+      padding: 1.5rem; overflow-x: auto; margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; line-height: 1.8; color: #abb2bf;
+    }
+    .c  { color: #5c6370; font-style: italic; }
+    .k  { color: #c678dd; }
+    .fn { color: #61afef; }
+    .s  { color: #98c379; }
+    .n  { color: #e06c75; }
+    .t  { color: #e5c07b; }
+    .m  { color: #d19a66; }
+    .p  { color: #56b6c2; }
+
     /* RESPONSIVE */
     @media (max-width: 820px) {
       nav { padding: 1rem 1.25rem; }
@@ -321,6 +363,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#code">Code</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -569,6 +612,189 @@
   </div>
 </section>
 
+<!-- CODE SHOWCASE -->
+<section id="code">
+  <div class="container">
+    <p class="section-label">// how I write it</p>
+    <h2 class="section-title">Code Showcase</h2>
+    <p class="section-desc">
+      Illustrative examples of the patterns and approaches I use across test automation,
+      AI tooling, and CI/CD pipelines. Generic representations &mdash; not proprietary code.
+    </p>
+
+    <div class="code-tabs fade">
+      <button class="code-tab active" onclick="showTab('playwright')">Playwright E2E Test</button>
+      <button class="code-tab" onclick="showTab('ai-skill')">AI QA Skill (Python)</button>
+      <button class="code-tab" onclick="showTab('ci-gate')">CI Quality Gate (YAML)</button>
+    </div>
+
+    <!-- Tab 1: Playwright -->
+    <div id="tab-playwright" class="code-panel active fade">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="code-dot" style="background:#ff5f57"></div>
+          <div class="code-dot" style="background:#febc2e"></div>
+          <div class="code-dot" style="background:#28c840"></div>
+          <span class="code-filename">merchant-workflow.spec.ts</span>
+        </div>
+<pre class="code-body"><span class="k">import</span> { test, expect } <span class="k">from</span> <span class="s">'@playwright/test'</span>;
+<span class="k">import</span> { <span class="t">LoginPage</span> } <span class="k">from</span> <span class="s">'./pages/LoginPage'</span>;
+<span class="k">import</span> { <span class="t">AdDashboard</span> } <span class="k">from</span> <span class="s">'./pages/AdDashboard'</span>;
+
+<span class="fn">test.describe</span>(<span class="s">'Merchant Ad Workflow'</span>, () => {
+
+  <span class="fn">test.beforeEach</span>(<span class="k">async</span> ({ page }) => {
+    <span class="k">const</span> <span class="n">login</span> = <span class="k">new</span> <span class="t">LoginPage</span>(page);
+    <span class="k">await</span> login.<span class="fn">goto</span>();
+    <span class="k">await</span> login.<span class="fn">signIn</span>(process.env.<span class="n">TEST_USER</span>!, process.env.<span class="n">TEST_PASS</span>!);
+  });
+
+  <span class="fn">test</span>(<span class="s">'merchant can create and publish a listing'</span>, <span class="k">async</span> ({ page }) => {
+    <span class="k">const</span> <span class="n">dashboard</span> = <span class="k">new</span> <span class="t">AdDashboard</span>(page);
+
+    <span class="k">await</span> dashboard.<span class="fn">goto</span>();
+    <span class="k">await</span> dashboard.<span class="fn">clickCreateAd</span>();
+
+    <span class="k">await</span> page.<span class="fn">fill</span>(<span class="s">'[data-testid="ad-title"]'</span>, <span class="s">'Sample Listing Title'</span>);
+    <span class="k">await</span> page.<span class="fn">fill</span>(<span class="s">'[data-testid="monthly-rate"]'</span>, <span class="s">'299'</span>);
+    <span class="k">await</span> page.<span class="fn">selectOption</span>(<span class="s">'[data-testid="category"]'</span>, <span class="s">'standard'</span>);
+
+    <span class="k">await</span> page.<span class="fn">click</span>(<span class="s">'[data-testid="publish-btn"]'</span>);
+
+    <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'[data-testid="success-toast"]'</span>))
+      .<span class="fn">toContainText</span>(<span class="s">'Published successfully'</span>);
+    <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'[data-testid="listing-status"]'</span>))
+      .<span class="fn">toHaveText</span>(<span class="s">'Active'</span>);
+  });
+
+  <span class="fn">test</span>(<span class="s">'shows validation error for missing required fields'</span>, <span class="k">async</span> ({ page }) => {
+    <span class="k">const</span> <span class="n">dashboard</span> = <span class="k">new</span> <span class="t">AdDashboard</span>(page);
+    <span class="k">await</span> dashboard.<span class="fn">goto</span>();
+    <span class="k">await</span> dashboard.<span class="fn">clickCreateAd</span>();
+    <span class="k">await</span> page.<span class="fn">click</span>(<span class="s">'[data-testid="publish-btn"]'</span>);
+
+    <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'.field-error'</span>)).<span class="fn">toHaveCount</span>(<span class="m">2</span>);
+  });
+
+});</pre>
+      </div>
+    </div>
+
+    <!-- Tab 2: AI Skill -->
+    <div id="tab-ai-skill" class="code-panel fade">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="code-dot" style="background:#ff5f57"></div>
+          <div class="code-dot" style="background:#febc2e"></div>
+          <div class="code-dot" style="background:#28c840"></div>
+          <span class="code-filename">qa_automator.py</span>
+        </div>
+<pre class="code-body"><span class="c">"""
+qa-automator: Reads a ticket's acceptance criteria and a git diff,
+then uses an LLM to trace each AC to the code and emit PASS/FAIL results.
+"""</span>
+
+<span class="k">import</span> sys, json, subprocess
+<span class="k">from</span> anthropic <span class="k">import</span> Anthropic
+
+<span class="n">client</span> = <span class="fn">Anthropic</span>()
+
+<span class="k">def</span> <span class="fn">get_diff</span>(base_branch: <span class="t">str</span>, feature_branch: <span class="t">str</span>) -> <span class="t">str</span>:
+    result = subprocess.<span class="fn">run</span>(
+        [<span class="s">'git'</span>, <span class="s">'diff'</span>, <span class="s">f'</span><span class="n">{base_branch}</span><span class="s">...</span><span class="n">{feature_branch}</span><span class="s">'</span>],
+        capture_output=<span class="k">True</span>, text=<span class="k">True</span>
+    )
+    <span class="k">return</span> result.stdout
+
+<span class="k">def</span> <span class="fn">run_qa_automator</span>(acceptance_criteria: <span class="t">str</span>, branch: <span class="t">str</span>):
+    diff = <span class="fn">get_diff</span>(<span class="s">'main'</span>, branch)
+
+    prompt = <span class="s">f"""You are a senior QA engineer.
+Given the acceptance criteria and code diff below, trace each AC
+to the implementation and output structured test results.
+
+Acceptance Criteria:
+{acceptance_criteria}
+
+Code Diff:
+{diff}
+
+Return JSON: [{{"id":"TC-1","description":"...","status":"PASS|FAIL","evidence":"..."}}]"""</span>
+
+    response = <span class="n">client</span>.messages.<span class="fn">create</span>(
+        model=<span class="s">"claude-sonnet-4-6"</span>,
+        max_tokens=<span class="m">4096</span>,
+        messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: prompt}]
+    )
+
+    results = json.<span class="fn">loads</span>(response.content[<span class="m">0</span>].text)
+    <span class="k">for</span> tc <span class="k">in</span> results:
+        color = <span class="s">"\033[92m"</span> <span class="k">if</span> tc[<span class="s">'status'</span>] == <span class="s">'PASS'</span> <span class="k">else</span> <span class="s">"\033[91m"</span>
+        <span class="fn">print</span>(<span class="s">f"</span><span class="n">{color}</span><span class="s">[{tc['status']}]\033[0m {tc['id']}: {tc['description']}"</span>)
+
+<span class="k">if</span> __name__ == <span class="s">'__main__'</span>:
+    ac_text  = sys.argv[<span class="m">1</span>]  <span class="c"># acceptance criteria text</span>
+    branch   = sys.argv[<span class="m">2</span>]  <span class="c"># feature branch name</span>
+    <span class="fn">run_qa_automator</span>(ac_text, branch)</pre>
+      </div>
+    </div>
+
+    <!-- Tab 3: CI Gate -->
+    <div id="tab-ci-gate" class="code-panel fade">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="code-dot" style="background:#ff5f57"></div>
+          <div class="code-dot" style="background:#febc2e"></div>
+          <div class="code-dot" style="background:#28c840"></div>
+          <span class="code-filename">.github/workflows/ai-review-gate.yml</span>
+        </div>
+<pre class="code-body"><span class="n">name</span>: <span class="s">AI Review Gate</span>
+
+<span class="k">on</span>:
+  <span class="fn">pull_request</span>:
+    <span class="n">types</span>: [opened, synchronize, reopened]
+
+<span class="k">jobs</span>:
+  <span class="fn">check-ai-comments</span>:
+    <span class="n">name</span>: <span class="s">Block merge if AI reviewer comments unresolved</span>
+    <span class="n">runs-on</span>: ubuntu-latest
+
+    <span class="n">steps</span>:
+      - <span class="n">name</span>: <span class="s">Check for unresolved AI review comments</span>
+        <span class="n">uses</span>: actions/github-script@v7
+        <span class="k">with</span>:
+          <span class="n">script</span>: |
+            <span class="k">const</span> { data: comments } = <span class="k">await</span> github.rest.pulls
+              .<span class="fn">listReviewComments</span>({
+                owner:       context.repo.owner,
+                repo:        context.repo.repo,
+                pull_number: context.issue.number,
+              });
+
+            <span class="c">// Identify comments from AI / bot reviewers</span>
+            <span class="k">const</span> <span class="n">aiComments</span> = comments.<span class="fn">filter</span>(c =>
+              c.user.type === <span class="s">'Bot'</span>
+            );
+
+            <span class="c">// Unresolved = no reply thread started</span>
+            <span class="k">const</span> <span class="n">unresolved</span> = <span class="n">aiComments</span>.<span class="fn">filter</span>(c =>
+              !c.in_reply_to_id
+            );
+
+            <span class="k">if</span> (<span class="n">unresolved</span>.length > <span class="m">0</span>) {
+              core.<span class="fn">setFailed</span>(
+                <span class="s">`</span><span class="n">${unresolved.length}</span><span class="s"> unresolved AI comment(s). `</span> +
+                <span class="s">`Please address all before merging.`</span>
+              );
+            } <span class="k">else</span> {
+              <span class="fn">console</span>.<span class="fn">log</span>(<span class="s">'All AI comments resolved. Ready to merge.'</span>);
+            }</pre>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="container">
@@ -661,6 +887,19 @@
     setTimeout(tick, del ? 38 : 78);
   }
   tick();
+
+  // Code tab switcher
+  function showTab(id) {
+    document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    const panel = document.getElementById('tab-' + id);
+    panel.classList.add('active');
+    // trigger fade-in for newly shown panel
+    panel.classList.remove('show');
+    requestAnimationFrame(() => panel.classList.add('show'));
+  }
+  window.showTab = showTab;
 
   // Fade-in on scroll
   const obs = new IntersectionObserver(
