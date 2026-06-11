@@ -686,54 +686,77 @@
       <button class="code-tab" onclick="showTab('coverage')">Coverage Reporter (YAML)</button>
     </div>
 
-    <!-- Tab 1: Playwright -->
+    <!-- Tab 1: Playwright POM -->
     <div id="tab-playwright" class="code-panel active fade">
       <div class="code-window">
         <div class="code-titlebar">
           <div class="code-dot" style="background:#ff5f57"></div>
           <div class="code-dot" style="background:#febc2e"></div>
           <div class="code-dot" style="background:#28c840"></div>
-          <span class="code-filename">merchant-workflow.spec.ts</span>
+          <span class="code-filename">pages/AdDashboardPage.ts &nbsp;|&nbsp; merchant-workflow.spec.ts</span>
         </div>
-<pre class="code-body"><span class="k">import</span> { test, expect } <span class="k">from</span> <span class="s">'@playwright/test'</span>;
-<span class="k">import</span> { <span class="t">LoginPage</span> } <span class="k">from</span> <span class="s">'./pages/LoginPage'</span>;
-<span class="k">import</span> { <span class="t">AdDashboard</span> } <span class="k">from</span> <span class="s">'./pages/AdDashboard'</span>;
+<pre class="code-body"><span class="c">// ── Page Object ──────────────────────────────────────────────</span>
+<span class="k">import</span> { <span class="t">Page</span>, <span class="t">Locator</span> } <span class="k">from</span> <span class="s">'@playwright/test'</span>;
+<span class="k">import</span> { <span class="t">BasePage</span> } <span class="k">from</span> <span class="s">'./BasePage'</span>;
+
+<span class="k">export class</span> <span class="t">AdDashboardPage</span> <span class="k">extends</span> <span class="t">BasePage</span> {
+  <span class="k">readonly</span> <span class="n">createAdBtn</span>:    <span class="t">Locator</span>;
+  <span class="k">readonly</span> <span class="n">titleInput</span>:     <span class="t">Locator</span>;
+  <span class="k">readonly</span> <span class="n">rateInput</span>:      <span class="t">Locator</span>;
+  <span class="k">readonly</span> <span class="n">categorySelect</span>: <span class="t">Locator</span>;
+  <span class="k">readonly</span> <span class="n">publishBtn</span>:     <span class="t">Locator</span>;
+  <span class="k">readonly</span> <span class="n">successToast</span>:   <span class="t">Locator</span>;
+  <span class="k">readonly</span> <span class="n">listingStatus</span>:  <span class="t">Locator</span>;
+
+  <span class="fn">constructor</span>(page: <span class="t">Page</span>) {
+    <span class="k">super</span>(page);
+    <span class="k">this</span>.<span class="n">createAdBtn</span>    = page.<span class="fn">getByRole</span>(<span class="s">'button'</span>, { name: <span class="s">'Create listing'</span> });
+    <span class="k">this</span>.<span class="n">titleInput</span>     = page.<span class="fn">getByLabel</span>(<span class="s">'Listing title'</span>);
+    <span class="k">this</span>.<span class="n">rateInput</span>      = page.<span class="fn">getByLabel</span>(<span class="s">'Monthly rate'</span>);
+    <span class="k">this</span>.<span class="n">categorySelect</span> = page.<span class="fn">getByLabel</span>(<span class="s">'Category'</span>);
+    <span class="k">this</span>.<span class="n">publishBtn</span>     = page.<span class="fn">getByRole</span>(<span class="s">'button'</span>, { name: <span class="s">'Publish'</span> });
+    <span class="k">this</span>.<span class="n">successToast</span>   = page.<span class="fn">getByRole</span>(<span class="s">'status'</span>);
+    <span class="k">this</span>.<span class="n">listingStatus</span>  = page.<span class="fn">getByTestId</span>(<span class="s">'listing-status'</span>);
+  }
+
+  <span class="k">async</span> <span class="fn">createListing</span>(title: <span class="t">string</span>, rate: <span class="t">string</span>, category: <span class="t">string</span>) {
+    <span class="k">await</span> <span class="k">this</span>.<span class="n">createAdBtn</span>.<span class="fn">click</span>();
+    <span class="k">await</span> <span class="k">this</span>.<span class="n">titleInput</span>.<span class="fn">fill</span>(title);
+    <span class="k">await</span> <span class="k">this</span>.<span class="n">rateInput</span>.<span class="fn">fill</span>(rate);
+    <span class="k">await</span> <span class="k">this</span>.<span class="n">categorySelect</span>.<span class="fn">selectOption</span>(category);
+    <span class="k">await</span> <span class="k">this</span>.<span class="n">publishBtn</span>.<span class="fn">click</span>();
+  }
+}
+
+<span class="c">// ── Spec File ────────────────────────────────────────────────</span>
+<span class="k">import</span> { test, expect } <span class="k">from</span> <span class="s">'@playwright/test'</span>;
+<span class="k">import</span> { <span class="t">AdDashboardPage</span> } <span class="k">from</span> <span class="s">'./pages/AdDashboardPage'</span>;
+<span class="k">import</span> { <span class="t">LoginPage</span> }       <span class="k">from</span> <span class="s">'./pages/LoginPage'</span>;
 
 <span class="fn">test.describe</span>(<span class="s">'Merchant Ad Workflow'</span>, () => {
+  <span class="k">let</span> <span class="n">dashboard</span>: <span class="t">AdDashboardPage</span>;
 
   <span class="fn">test.beforeEach</span>(<span class="k">async</span> ({ page }) => {
-    <span class="k">const</span> <span class="n">login</span> = <span class="k">new</span> <span class="t">LoginPage</span>(page);
-    <span class="k">await</span> login.<span class="fn">goto</span>();
-    <span class="k">await</span> login.<span class="fn">signIn</span>(process.env.<span class="n">TEST_USER</span>!, process.env.<span class="n">TEST_PASS</span>!);
+    <span class="k">await new</span> <span class="t">LoginPage</span>(page).<span class="fn">signIn</span>(
+      process.env.<span class="n">TEST_USER</span>!, process.env.<span class="n">TEST_PASS</span>!
+    );
+    <span class="n">dashboard</span> = <span class="k">new</span> <span class="t">AdDashboardPage</span>(page);
+    <span class="k">await</span> <span class="n">dashboard</span>.<span class="fn">goto</span>();
   });
 
-  <span class="fn">test</span>(<span class="s">'merchant can create and publish a listing'</span>, <span class="k">async</span> ({ page }) => {
-    <span class="k">const</span> <span class="n">dashboard</span> = <span class="k">new</span> <span class="t">AdDashboard</span>(page);
+  <span class="fn">test</span>(<span class="s">'merchant can create and publish a listing'</span>, <span class="k">async</span> () => {
+    <span class="k">await</span> <span class="n">dashboard</span>.<span class="fn">createListing</span>(<span class="s">'Sample Title'</span>, <span class="s">'299'</span>, <span class="s">'standard'</span>);
 
-    <span class="k">await</span> dashboard.<span class="fn">goto</span>();
-    <span class="k">await</span> dashboard.<span class="fn">clickCreateAd</span>();
-
-    <span class="k">await</span> page.<span class="fn">fill</span>(<span class="s">'[data-testid="ad-title"]'</span>, <span class="s">'Sample Listing Title'</span>);
-    <span class="k">await</span> page.<span class="fn">fill</span>(<span class="s">'[data-testid="monthly-rate"]'</span>, <span class="s">'299'</span>);
-    <span class="k">await</span> page.<span class="fn">selectOption</span>(<span class="s">'[data-testid="category"]'</span>, <span class="s">'standard'</span>);
-
-    <span class="k">await</span> page.<span class="fn">click</span>(<span class="s">'[data-testid="publish-btn"]'</span>);
-
-    <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'[data-testid="success-toast"]'</span>))
-      .<span class="fn">toContainText</span>(<span class="s">'Published successfully'</span>);
-    <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'[data-testid="listing-status"]'</span>))
-      .<span class="fn">toHaveText</span>(<span class="s">'Active'</span>);
+    <span class="k">await</span> <span class="fn">expect</span>(<span class="n">dashboard</span>.<span class="n">successToast</span>).<span class="fn">toContainText</span>(<span class="s">'Published successfully'</span>);
+    <span class="k">await</span> <span class="fn">expect</span>(<span class="n">dashboard</span>.<span class="n">listingStatus</span>).<span class="fn">toHaveText</span>(<span class="s">'Active'</span>);
   });
 
-  <span class="fn">test</span>(<span class="s">'shows validation error for missing required fields'</span>, <span class="k">async</span> ({ page }) => {
-    <span class="k">const</span> <span class="n">dashboard</span> = <span class="k">new</span> <span class="t">AdDashboard</span>(page);
-    <span class="k">await</span> dashboard.<span class="fn">goto</span>();
-    <span class="k">await</span> dashboard.<span class="fn">clickCreateAd</span>();
-    <span class="k">await</span> page.<span class="fn">click</span>(<span class="s">'[data-testid="publish-btn"]'</span>);
+  <span class="fn">test</span>(<span class="s">'shows validation errors for missing required fields'</span>, <span class="k">async</span> ({ page }) => {
+    <span class="k">await</span> <span class="n">dashboard</span>.<span class="n">createAdBtn</span>.<span class="fn">click</span>();
+    <span class="k">await</span> <span class="n">dashboard</span>.<span class="n">publishBtn</span>.<span class="fn">click</span>();
 
     <span class="k">await</span> <span class="fn">expect</span>(page.<span class="fn">locator</span>(<span class="s">'.field-error'</span>)).<span class="fn">toHaveCount</span>(<span class="m">2</span>);
   });
-
 });</pre>
       </div>
     </div>
