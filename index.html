@@ -535,11 +535,11 @@
         </div>
         <h3>quality-pack &mdash; AI QA Plugin Suite</h3>
         <p>
-          Designed and built a Claude Code skill ecosystem for QA:
-          <strong>playwright-test-generator</strong> (auto-generates &amp; self-heals Playwright tests from ticket ACs),
-          <strong>qa-automator</strong> (traces tickets against code and runs test cases),
-          <strong>check-qa-copilot</strong> (validates all AI reviewer comments are resolved pre-merge),
-          <strong>weekly-report</strong>, and <strong>browser-qa</strong> (browser-based exploratory testing agent).
+          Designed and built a Claude Code skill ecosystem adopted across the engineering team.
+          <strong>playwright-test-generator</strong>: reads ticket ACs, generates spec files, auto-runs them and self-heals broken selectors across up to 3 iterations using live DOM inspection.
+          <strong>qa-automator</strong>: traces each AC against the code diff, emits PASS/FAIL with evidence, and auto-publishes reports to Confluence &mdash; runs daily via cron.
+          <strong>check-qa-copilot</strong>: audits all In-QA PRs for unresolved AI reviewer threads.
+          Also includes <strong>weekly-report</strong> and an in-progress <strong>browser-qa</strong> exploratory testing agent.
         </p>
         <div class="tags">
           <span class="tag tag-a">Claude API</span>
@@ -547,6 +547,7 @@
           <span class="tag">Python</span>
           <span class="tag">TypeScript</span>
           <span class="tag">MCP</span>
+          <span class="tag">Confluence API</span>
         </div>
       </div>
 
@@ -557,35 +558,63 @@
         </div>
         <h3>Playwright Nightly Test Framework</h3>
         <p>
-          Maintained and extended 180+ E2E nightly tests covering search funnels, deals page filters,
-          merchant workflows, and addons booking.
-          Resolved a critical failure where 89 of 182 tests were broken due to P2 brand page selector drift.
-          Added Datadog &rarr; Slack alerting for real-time failure notifications.
+          Maintained and extended 180+ E2E nightly tests across P1/P2 tiers covering search funnels,
+          deals page filters, merchant workflows, and addons booking flows (active, deactivated, reserved ads).
+          Resolved a critical failure where 89/182 tests were broken due to brand page selector drift.
+          Refactored the Test Catalog Pipeline to deploy reports to a dedicated GitHub Pages subdirectory
+          and trigger automatically on new test additions.
+          Added Datadog &rarr; Slack alerting when test pass rate drops below 70%.
         </p>
         <div class="tags">
           <span class="tag tag-a">Playwright</span>
           <span class="tag">TypeScript</span>
           <span class="tag">Datadog</span>
           <span class="tag">GitHub Actions</span>
+          <span class="tag">GitHub Pages</span>
         </div>
       </div>
 
       <div class="proj-card fade">
         <div class="proj-head">
           <span class="proj-icon">&#128678;</span>
-          <span class="proj-year">2026</span>
+          <span class="proj-year">2025 &ndash; 2026</span>
         </div>
         <h3>CI/CD Quality Gates</h3>
         <p>
-          Built a GitHub Actions workflow that blocks PR merges when AI reviewer (Copilot) comments
-          are unresolved &mdash; ensuring AI-generated feedback is always actioned before code ships.
-          Also surfaced unit test coverage reports directly on GitHub PRs for full visibility.
+          After a production incident caused by an unactioned AI reviewer comment that wiped thousands of listings,
+          built a GitHub Actions workflow that <strong>blocks PR merges</strong> when any AI reviewer (Copilot/bot) thread is unresolved &mdash;
+          making it technically impossible to bypass AI review feedback.
+          Separately, restored <strong>unit test coverage visibility</strong> after a GitLab &rarr; GitHub migration:
+          track history of coverage percentage and a per-PR coverage delta indicator surfaced directly in the PR.
         </p>
         <div class="tags">
           <span class="tag tag-a">GitHub Actions</span>
-          <span class="tag">GitHub API</span>
+          <span class="tag">GitHub GraphQL API</span>
           <span class="tag">CI/CD</span>
           <span class="tag">Code Quality</span>
+          <span class="tag">Coverage Reporting</span>
+        </div>
+      </div>
+
+      <div class="proj-card fade">
+        <div class="proj-head">
+          <span class="proj-icon">&#128202;</span>
+          <span class="proj-year">2025 &ndash; 2026</span>
+        </div>
+        <h3>A/B &amp; Feature Flag Testing</h3>
+        <p>
+          Conducted extensive exploratory and scenario-based testing across A/B experiments using Optimizely &mdash;
+          covering baseline vs. variation states, feature flag combinations, and edge cases across local,
+          staging, and incognito environments.
+          Documented complete testing guides covering setup, flag management, cache invalidation steps,
+          and reproducible test scenarios for the QA team.
+        </p>
+        <div class="tags">
+          <span class="tag tag-a">Exploratory Testing</span>
+          <span class="tag">A/B Testing</span>
+          <span class="tag">Optimizely</span>
+          <span class="tag">Feature Flags</span>
+          <span class="tag">Test Documentation</span>
         </div>
       </div>
 
@@ -596,9 +625,9 @@
         </div>
         <h3>Test Coverage Mapping &amp; Migration</h3>
         <p>
-          Mapped existing cockpit E2E tests to a use-case specification to surface coverage gaps
-          visually. Migrated legacy Pest-style closure tests to structured PHPUnit classes,
-          improving IDE support, discoverability, and long-term maintainability.
+          Mapped existing E2E tests to a use-case specification to surface coverage gaps visually.
+          Migrated legacy Pest-style closure tests to structured PHPUnit classes,
+          improving IDE support, test discoverability, and long-term maintainability across the codebase.
         </p>
         <div class="tags">
           <span class="tag tag-a">PHPUnit</span>
@@ -624,8 +653,9 @@
 
     <div class="code-tabs fade">
       <button class="code-tab active" onclick="showTab('playwright')">Playwright E2E Test</button>
-      <button class="code-tab" onclick="showTab('ai-skill')">AI QA Skill (Python)</button>
+      <button class="code-tab" onclick="showTab('ai-skill')">quality-pack: Self-Healing Loop</button>
       <button class="code-tab" onclick="showTab('ci-gate')">CI Quality Gate (YAML)</button>
+      <button class="code-tab" onclick="showTab('coverage')">Coverage Reporter (YAML)</button>
     </div>
 
     <!-- Tab 1: Playwright -->
@@ -680,62 +710,124 @@
       </div>
     </div>
 
-    <!-- Tab 2: AI Skill -->
+    <!-- Tab 2: quality-pack self-healing -->
     <div id="tab-ai-skill" class="code-panel fade">
       <div class="code-window">
         <div class="code-titlebar">
           <div class="code-dot" style="background:#ff5f57"></div>
           <div class="code-dot" style="background:#febc2e"></div>
           <div class="code-dot" style="background:#28c840"></div>
-          <span class="code-filename">qa_automator.py</span>
+          <span class="code-filename">playwright-test-generator / self-heal.ts (illustrative)</span>
         </div>
-<pre class="code-body"><span class="c">"""
-qa-automator: Reads a ticket's acceptance criteria and a git diff,
-then uses an LLM to trace each AC to the code and emit PASS/FAIL results.
-"""</span>
+<pre class="code-body"><span class="c">/**
+ * quality-pack: playwright-test-generator
+ * Self-healing loop — classifies failures and applies targeted fixes.
+ * Runs up to MAX_ITERATIONS before surfacing a human-readable diagnosis.
+ */</span>
 
-<span class="k">import</span> sys, json, subprocess
-<span class="k">from</span> anthropic <span class="k">import</span> Anthropic
+<span class="k">const</span> <span class="n">MAX_ITERATIONS</span> = <span class="m">3</span>;
 
-<span class="n">client</span> = <span class="fn">Anthropic</span>()
+<span class="k">type</span> <span class="t">FailureCategory</span> =
+  | <span class="s">'locator_not_found'</span>
+  | <span class="s">'assertion_mismatch'</span>
+  | <span class="s">'navigation_timeout'</span>
+  | <span class="s">'element_not_interactable'</span>
+  | <span class="s">'test_timeout'</span>
+  | <span class="s">'unrecoverable'</span>;
 
-<span class="k">def</span> <span class="fn">get_diff</span>(base_branch: <span class="t">str</span>, feature_branch: <span class="t">str</span>) -> <span class="t">str</span>:
-    result = subprocess.<span class="fn">run</span>(
-        [<span class="s">'git'</span>, <span class="s">'diff'</span>, <span class="s">f'</span><span class="n">{base_branch}</span><span class="s">...</span><span class="n">{feature_branch}</span><span class="s">'</span>],
-        capture_output=<span class="k">True</span>, text=<span class="k">True</span>
-    )
-    <span class="k">return</span> result.stdout
+<span class="k">async function</span> <span class="fn">classifyFailure</span>(output: <span class="t">string</span>): <span class="t">Promise</span>&lt;<span class="t">FailureCategory</span>&gt; {
+  <span class="k">if</span> (output.<span class="fn">includes</span>(<span class="s">'locator.click'</span>) || output.<span class="fn">includes</span>(<span class="s">'No element found'</span>))
+    <span class="k">return</span> <span class="s">'locator_not_found'</span>;
+  <span class="k">if</span> (output.<span class="fn">includes</span>(<span class="s">'expect(received).toBe'</span>))
+    <span class="k">return</span> <span class="s">'assertion_mismatch'</span>;
+  <span class="k">if</span> (output.<span class="fn">includes</span>(<span class="s">'Navigation timeout'</span>))
+    <span class="k">return</span> <span class="s">'navigation_timeout'</span>;
+  <span class="k">return</span> <span class="s">'unrecoverable'</span>;
+}
 
-<span class="k">def</span> <span class="fn">run_qa_automator</span>(acceptance_criteria: <span class="t">str</span>, branch: <span class="t">str</span>):
-    diff = <span class="fn">get_diff</span>(<span class="s">'main'</span>, branch)
+<span class="k">async function</span> <span class="fn">healLocator</span>(specPath: <span class="t">string</span>, failOutput: <span class="t">string</span>) {
+  <span class="c">// Use Playwright MCP to inspect the live DOM and find the correct selector</span>
+  <span class="k">const</span> <span class="n">snapshot</span> = <span class="k">await</span> <span class="fn">browserSnapshot</span>();
+  <span class="k">const</span> <span class="n">suggestion</span> = <span class="k">await</span> <span class="fn">askLLM</span>(<span class="s">`
+    The following locator failed: </span><span class="n">${failOutput}</span><span class="s">
+    Here is the current DOM snapshot: </span><span class="n">${snapshot}</span><span class="s">
+    Suggest the correct Playwright locator (prefer getByRole/getByLabel).
+  `</span>);
+  <span class="k">await</span> <span class="fn">replaceLocatorInFile</span>(specPath, suggestion);
+}
 
-    prompt = <span class="s">f"""You are a senior QA engineer.
-Given the acceptance criteria and code diff below, trace each AC
-to the implementation and output structured test results.
+<span class="k">async function</span> <span class="fn">runWithHealing</span>(specPath: <span class="t">string</span>): <span class="t">Promise</span>&lt;<span class="k">void</span>&gt; {
+  <span class="k">for</span> (<span class="k">let</span> <span class="n">i</span> = <span class="m">1</span>; <span class="n">i</span> &lt;= <span class="n">MAX_ITERATIONS</span>; <span class="n">i</span>++) {
+    <span class="k">const</span> { <span class="n">passed</span>, <span class="n">output</span> } = <span class="k">await</span> <span class="fn">runPlaywright</span>(specPath);
+    <span class="k">if</span> (<span class="n">passed</span>) { <span class="fn">console</span>.<span class="fn">log</span>(<span class="s">`All tests passed on iteration </span><span class="n">${i}</span><span class="s">`</span>); <span class="k">return</span>; }
 
-Acceptance Criteria:
-{acceptance_criteria}
+    <span class="k">const</span> <span class="n">category</span> = <span class="k">await</span> <span class="fn">classifyFailure</span>(<span class="n">output</span>);
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="s">`[Iteration </span><span class="n">${i}</span><span class="s">] Failure: </span><span class="n">${category}</span><span class="s"> — applying fix...`</span>);
 
-Code Diff:
-{diff}
+    <span class="k">if</span> (<span class="n">category</span> === <span class="s">'locator_not_found'</span>)   <span class="k">await</span> <span class="fn">healLocator</span>(specPath, <span class="n">output</span>);
+    <span class="k">else if</span> (<span class="n">category</span> === <span class="s">'unrecoverable'</span>)  { <span class="fn">reportDiagnosis</span>(<span class="n">output</span>); <span class="k">return</span>; }
+  }
+  <span class="fn">reportDiagnosis</span>(<span class="s">'Max healing iterations reached'</span>);
+}</pre>
+      </div>
+    </div>
 
-Return JSON: [{{"id":"TC-1","description":"...","status":"PASS|FAIL","evidence":"..."}}]"""</span>
+    <!-- Tab 4: Coverage Reporter -->
+    <div id="tab-coverage" class="code-panel fade">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="code-dot" style="background:#ff5f57"></div>
+          <div class="code-dot" style="background:#febc2e"></div>
+          <div class="code-dot" style="background:#28c840"></div>
+          <span class="code-filename">.github/workflows/coverage-report.yml</span>
+        </div>
+<pre class="code-body"><span class="n">name</span>: <span class="s">Unit Test Coverage Report</span>
 
-    response = <span class="n">client</span>.messages.<span class="fn">create</span>(
-        model=<span class="s">"claude-sonnet-4-6"</span>,
-        max_tokens=<span class="m">4096</span>,
-        messages=[{<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: prompt}]
-    )
+<span class="k">on</span>:
+  <span class="fn">push</span>:
+    <span class="n">branches</span>: [main, production]
+  <span class="fn">pull_request</span>:
 
-    results = json.<span class="fn">loads</span>(response.content[<span class="m">0</span>].text)
-    <span class="k">for</span> tc <span class="k">in</span> results:
-        color = <span class="s">"\033[92m"</span> <span class="k">if</span> tc[<span class="s">'status'</span>] == <span class="s">'PASS'</span> <span class="k">else</span> <span class="s">"\033[91m"</span>
-        <span class="fn">print</span>(<span class="s">f"</span><span class="n">{color}</span><span class="s">[{tc['status']}]\033[0m {tc['id']}: {tc['description']}"</span>)
+<span class="k">jobs</span>:
+  <span class="fn">coverage</span>:
+    <span class="n">runs-on</span>: ubuntu-latest
 
-<span class="k">if</span> __name__ == <span class="s">'__main__'</span>:
-    ac_text  = sys.argv[<span class="m">1</span>]  <span class="c"># acceptance criteria text</span>
-    branch   = sys.argv[<span class="m">2</span>]  <span class="c"># feature branch name</span>
-    <span class="fn">run_qa_automator</span>(ac_text, branch)</pre>
+    <span class="n">steps</span>:
+      - <span class="n">uses</span>: actions/checkout@v4
+
+      - <span class="n">name</span>: <span class="s">Run unit tests with coverage</span>
+        <span class="n">run</span>: <span class="s">vendor/bin/phpunit --coverage-clover coverage.xml</span>
+
+      - <span class="n">name</span>: <span class="s">Extract coverage percentage</span>
+        <span class="n">id</span>: <span class="s">cov</span>
+        <span class="n">run</span>: |
+          <span class="n">COVERAGE</span>=$(python3 -c "
+          import xml.etree.ElementTree as ET
+          tree = ET.parse('coverage.xml')
+          metrics = tree.find('.//project/metrics')
+          covered = int(metrics.get('coveredstatements', 0))
+          total   = int(metrics.get('statements', 1))
+          print(f'{covered / total * 100:.1f}')
+          ")
+          echo "pct=$COVERAGE" >> $GITHUB_OUTPUT
+
+      - <span class="n">name</span>: <span class="s">Post coverage comment on PR</span>
+        <span class="k">if</span>: github.event_name == 'pull_request'
+        <span class="n">uses</span>: actions/github-script@v7
+        <span class="k">with</span>:
+          <span class="n">script</span>: |
+            <span class="k">const</span> <span class="n">pct</span> = <span class="s">'${{ steps.cov.outputs.pct }}'</span>;
+            <span class="k">const</span> <span class="n">icon</span> = <span class="fn">parseFloat</span>(<span class="n">pct</span>) >= <span class="m">10</span> ? <span class="s">'&#9989;'</span> : <span class="s">'&#9888;&#65039;'</span>;
+            <span class="k">await</span> github.rest.issues.<span class="fn">createComment</span>({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              body:  <span class="s">`</span><span class="n">${icon}</span><span class="s"> **Unit Test Coverage:** </span><span class="n">${pct}</span><span class="s">%`</span>,
+            });
+
+      - <span class="n">name</span>: <span class="s">Upload coverage badge to Pages</span>
+        <span class="k">if</span>: github.ref == 'refs/heads/production'
+        <span class="n">run</span>: <span class="s">echo "${{ steps.cov.outputs.pct }}" > coverage-latest.txt</span></pre>
       </div>
     </div>
 
@@ -810,11 +902,12 @@ Return JSON: [{{"id":"TC-1","description":"...","status":"PASS|FAIL","evidence":
         <h3>QA Engineer</h3>
         <div class="tl-company">AutoScout24 &middot; LeasingMarkt.de &mdash; Kaiserslautern, Germany</div>
         <ul>
-          <li>Built and maintained Playwright E2E nightly test suite (180+ tests across multiple domains)</li>
-          <li>Architected quality-pack &mdash; a Claude Code AI QA plugin ecosystem used by the engineering team</li>
-          <li>Implemented CI quality gates to enforce AI reviewer comment resolution before merges</li>
-          <li>Conducted extensive manual &amp; exploratory testing on core product features and lead flows</li>
-          <li>Introduced Datadog &rarr; Slack alerting for real-time nightly test failure notifications</li>
+          <li>Architected <strong>quality-pack</strong> &mdash; a Claude Code AI plugin suite (playwright-test-generator, qa-automator, check-qa-copilot, weekly-report, browser-qa) adopted across the engineering team</li>
+          <li>Built and maintained 180+ Playwright E2E nightly tests across P1/P2 tiers; refactored the Test Catalog Pipeline with GitHub Pages deployment</li>
+          <li>Built CI quality gate blocking PR merges on unresolved AI reviewer comments &mdash; direct response to a production incident affecting thousands of listings</li>
+          <li>Restored unit test coverage visibility after GitLab &rarr; GitHub migration: track history + per-PR coverage delta indicator</li>
+          <li>Conducted A/B and feature flag testing using Optimizely across local, staging, and incognito environments</li>
+          <li>Introduced Datadog &rarr; Slack alerting for nightly test failures below 70% pass rate</li>
         </ul>
       </div>
 
